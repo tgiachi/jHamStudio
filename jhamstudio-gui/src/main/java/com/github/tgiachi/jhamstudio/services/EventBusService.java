@@ -12,8 +12,6 @@ import java.io.Serializable;
 @Service
 public class EventBusService extends AbstractHamStudioService implements IEventBusService {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
-
     private final ApplicationEventPublisher eventPublisher;
 
     public EventBusService(ApplicationEventPublisher eventPublisher) {

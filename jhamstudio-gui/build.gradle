@@ -19,6 +19,7 @@ repositories {
 
 dependencies {
     implementation project(":jhamstudio-api")
+    implementation project(":jhamstudio-entities")
 
     implementation "org.slf4j:slf4j-api:${slf4jVersion}"
     // JavaFx
@@ -28,9 +29,18 @@ dependencies {
     implementation "org.openjfx:javafx-fxml:${javafxVersion}:${platform}"
     implementation "org.openjfx:javafx-web:${javafxVersion}:${platform}"
     implementation "org.openjfx:javafx-media:${javafxVersion}:${platform}"
+    implementation "org.luaj:luaj-jse:${lua4jVersion}"
+
+
 
     implementation "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
+//    implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+//
+//    implementation "io.springfox:springfox-boot-starter:3.0.0"
+//    implementation "io.springfox:springfox-swagger-ui:2.9.2"
+
     implementation "com.h2database:h2:1.4.200"
+    implementation "org.postgresql:postgresql:42.2.20"
 
     // Use JUnit test framework.
     testImplementation 'junit:junit:4.13.1'

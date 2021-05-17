@@ -1,10 +1,16 @@
 package com.github.tgiachi.jhamstudio.services;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tgiachi.jhamstudio.api.impl.services.AbstractHamStudioService;
 import com.tgiachi.jhamstudio.api.interfaces.services.IFileSystemService;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.ApplicationListener;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Service;
 
 
 import java.io.File;
@@ -16,14 +22,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class FileSystemService extends AbstractHamStudioService implements IFileSystemService {
-    private static final String rootDirectory = "hamcube";
+
+
+@Service
+@Order(1)
+public class FileSystemService extends AbstractHamStudioService implements IFileSystemService, ApplicationListener<ApplicationReadyEvent> {
+    private static final String rootDirectory = "jhamstudio";
     private static final String userDirectory = System.getProperty("user.home");
     private static final String appDirectory = Paths.get(userDirectory, rootDirectory).toString();
 
     private final Map<String, List<String>> startupScannedDirectory = new HashMap<>();
-
+    private final ObjectMapper objectMapper;
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    public FileSystemService( ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
 
     @Override
     public void start() {
@@ -73,14 +87,14 @@ public class FileSystemService extends AbstractHamStudioService implements IFile
 
     @Override
     public boolean writeToFileJson(String filename, Object obj) throws Exception {
-        FileUtils.writeStringToFile(new File(buildPath(filename)), DefaultSerializers.toJson(obj), Charset.defaultCharset());
+        FileUtils.writeStringToFile(new File(buildPath(filename)), objectMapper.writeValueAsString(obj), Charset.defaultCharset());
         return true;
     }
 
     @Override
     public <T> T readFileFromJson(String filename, Class<T> classz) throws Exception {
         var strFile = FileUtils.readFileToString(new File(buildPath(filename)), Charset.defaultCharset());
-        return DefaultSerializers.fromJson(strFile, classz);
+        return objectMapper.reader().readValue(strFile, classz);
     }
 
     @Override
@@ -93,5 +107,10 @@ public class FileSystemService extends AbstractHamStudioService implements IFile
     @Override
     public String readFile(String filename) throws Exception {
         return FileUtils.readFileToString(new File(buildPath(filename)), Charset.defaultCharset());
+    }
+
+    @Override
+    public void onApplicationEvent(ApplicationReadyEvent event) {
+        logger.info("Starting filesystem service");
     }
 }

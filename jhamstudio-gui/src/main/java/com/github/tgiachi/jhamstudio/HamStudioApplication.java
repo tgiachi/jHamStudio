@@ -1,5 +1,7 @@
 package com.github.tgiachi.jhamstudio;
 
+import com.tgiachi.jhamstudio.api.utils.ReflectionUtils;
+import com.tgiachi.jhamstudio.entities.UserProfile;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
@@ -7,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
+
+import javax.persistence.Entity;
 
 public class HamStudioApplication extends Application {
 
@@ -20,13 +24,14 @@ public class HamStudioApplication extends Application {
         logger.info("Initializing Context");
         this.applicationContext = new SpringApplicationBuilder()
                 .sources(App.class)
+                .sources(ReflectionUtils.getAnnotationArray(Entity.class))
                 .build(args)
                 .run(args);
-
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
 
     }
 

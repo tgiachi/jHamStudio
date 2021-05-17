@@ -19,6 +19,8 @@ repositories {
 
 dependencies {
     implementation project(":jhamstudio-api")
+
+    implementation "org.slf4j:slf4j-api:${slf4jVersion}"
     // JavaFx
     implementation "org.openjfx:javafx-base:${javafxVersion}:${platform}"
     implementation "org.openjfx:javafx-graphics:${javafxVersion}:${platform}"
@@ -27,14 +29,12 @@ dependencies {
     implementation "org.openjfx:javafx-web:${javafxVersion}:${platform}"
     implementation "org.openjfx:javafx-media:${javafxVersion}:${platform}"
 
-    implementation "org.springframework.boot:spring-boot-starter-data-jpa:2.4.4"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
     implementation "com.h2database:h2:1.4.200"
 
     // Use JUnit test framework.
     testImplementation 'junit:junit:4.13.1'
 
-    // This dependency is used by the application.
-    implementation 'com.google.guava:guava:30.0-jre'
 }
 
 application {

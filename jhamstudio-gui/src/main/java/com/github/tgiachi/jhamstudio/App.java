@@ -3,12 +3,16 @@
  */
 package com.github.tgiachi.jhamstudio;
 
+
+import com.tgiachi.jhamstudio.api.annotations.HamStudioPlugin;
+import javafx.application.Application;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        Application.launch(HamStudioApplication.class, args);
     }
 }

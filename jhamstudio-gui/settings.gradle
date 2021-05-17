@@ -8,4 +8,4 @@
  */
 
 rootProject.name = 'jhamstudio-gui'
-include('src')
+include('src', 'jhamstudio-api')
